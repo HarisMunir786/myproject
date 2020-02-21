@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ title }} - Page</title>
+</head>
+<body>
+<div class ="navbar">
+        <a>&nbsp</a> <a>&nbsp</a>
+        <a href ="{{ url_for ('home') }}"> HOME </a>
+        <a>&nbsp</a> <a>&nbsp</a> <a>|</a> <a>&nbsp</a> <a>&nbsp</a>
+        <a href ="{{ url_for ('books') }}"> BOOKS </a>
+        <a>&nbsp</a> <a>&nbsp</a> <a>|</a> <a>&nbsp</a> <a>&nbsp</a>
+        <a href ="{{ url_for ('register') }}"> REGISTER </a>
+        <a>&nbsp</a> <a>&nbsp</a> <a>|</a> <a>&nbsp</a> <a>&nbsp</a>
+        <a href ="{{ url_for ('login') }}"> LOGIN </a>
+        <a>&nbsp</a> <a>&nbsp</a> <a>|</a> <a>&nbsp</a> <a>&nbsp</a>
+	<a href ="{{ url_for ('myaccount') }}"> MY ACCOUNT </a>
+	<a>&nbsp</a> <a>&nbsp</a> <a>|</a> <a>&nbsp</a> <a>&nbsp</a>
+        <a href ="{{ url_for ('logout') }}"> LOGOUT </a>
+</div>
+{% block content %}{% endblock %}
+</body>
+</html>
+
