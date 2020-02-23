@@ -1,7 +1,0 @@
-{% extends "layout.html" %}
-{% block body_content %}
-    <p1> This is the register page! </p1>
-{% endblock %}
-{% block body_content %}
-    <p1> This is the register page! </p1>
-{% endblock %}

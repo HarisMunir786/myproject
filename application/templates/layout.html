@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>{{ title }} - Page</title>
-</head>
-<body>
-<div class ="navbar">
-        <a>&nbsp</a> <a>&nbsp</a>
-        <button onclick="{{ url_for ('home') }}">HOME</button>
-        <a>&nbsp</a><a>&nbsp</a>
-	<button onclick="{{ url_for ('register') }}">REGISTER</button>
-	<a>&nbsp</a><a>&nbsp</a>
-	<button onclick="{{ url_for ('login') }}">LOGIN</button>
-	<a>&nbsp</a><a>&nbsp</a>
-	<button onclick="{{ url_for ('books') }}">BOOKS</button>
-	<a>&nbsp</a><a>&nbsp</a>
-	<button onclick="{{ url_for ('myaccount') }}">MY ACCOUNT</button>
-	<a>&nbsp</a><a>&nbsp</a>
-	<button onclick="{{ url_for ('logout') }}">LOGOUT</button>
-	<a>&nbsp</a><a>&nbsp</a>
-</div>
-{% block content %}{% endblock %}
-</body>
-</html>
 
+<head>
+	<title>{{ title }} - Page</title>
+</head>
+
+<body>
+	<div class="navbar">
+		{% if current_user.is_authenticated %}
+			<a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('home') }}"> HOME </a>
+			<a>&nbsp</a> <a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('books') }}"> BOOKS </a>
+			<a>&nbsp</a> <a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('myaccount') }}">MY ACCOUNT</a>
+			<a>&nbsp</a><a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('posts') }}">POST A FEEDBACK</a>
+			<a>&nbsp</a><a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('logout') }}">LOGOUT</a>
+		{% else %}
+			<a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('home') }}"> HOME </a>
+			<a>&nbsp</a> <a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('books') }}"> BOOKS </a>
+			<a>&nbsp</a> <a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('register') }}"> REGISTER </a>
+			<a>&nbsp</a><a>&nbsp</a><a>|</a><a>&nbsp</a><a>&nbsp</a>
+			<a href="{{ url_for ('login') }}"> LOGIN </a>
+		{% endif %}
+	</div>
+	{% block body %}{% endblock %}
+</body>
+
+</html>
