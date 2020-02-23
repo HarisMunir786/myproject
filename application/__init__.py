@@ -11,7 +11,10 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:pass123@35.246.85.220/pojectdb'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:qasfia1project420@35.246.85.220/pojectdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = str(os.getenv('DB_URI'))
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
 db = SQLAlchemy(app)
 
 from application import routes

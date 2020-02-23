@@ -14,22 +14,22 @@ def books():
 
 @app.route('/register', methods = ['GET','POST'])
 def register():
-     form = RegistrationForm()
-     if form.validate_on_submit():
-        register_data = Users(
-        first_name = form.first_name.data,
-        last_name = form.last_name.data,
-        email = form.email.data,
-        password = form.password.data
-    )
-     db.session.add(register_data)
-     db.session.commit()
-     return render_template('register.html', title='Register')
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		register_data = Users(
+		first_name = form.first_name.data,
+		last_name = form.last_name.data,
+		email = form.email.data,
+		password = form.password.data
+    	)
+		db.session.add(register_data)
+		db.session.commit()
+	return render_template('register.html', title='Register')
 
 @app.route('/login')
 def login():
      form = LoginForm()
-     return render_template('login.html', title='Login')
+     return render_template('login.html', title='Login', form = form)
 
 @app.route('/login/myaccount')
 def myaccount():
@@ -82,4 +82,3 @@ def bookentry(id):
         post.content = request.form['content']
         db.session.commit()
         return redirect('/posts')
-    else:
