@@ -28,6 +28,7 @@ def register():
 
 @app.route('/login')
 def login():
+     form = LoginForm()
      return render_template('login.html', title='Login')
 
 @app.route('/login/myaccount')
@@ -40,6 +41,7 @@ def logout():
 
 @app.route('/login/myaccount/posts', methods=['GET', 'POST'])
 def posts():
+    form = PostForm()
     if request.method == 'POST':
         post_title = request.form['title']
         post_content = request.form['content']
@@ -72,6 +74,7 @@ def edit(id):
 
 @app.route('/login/myaccount/admin', methods=['GET','POST'])
 def bookentry(id):
+    form = BookEntryForm()
     post = BlogPost.query.get_or_404(id)
     if request.method == 'POST': 
         post.title = request.form['title']
