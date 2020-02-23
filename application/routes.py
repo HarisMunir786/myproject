@@ -17,16 +17,16 @@ def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
 		register_data = Users(
-		first_name = form.first_name.data,
-		last_name = form.last_name.data,
-		email = form.email.data,
-		password = form.password.data
-    	)
+			first_name = form.first_name.data,
+			last_name = form.last_name.data,
+			email = form.email.data,
+			password = form.password.data
+    		)
 		db.session.add(register_data)
 		db.session.commit()
-	return render_template('register.html', title='Register')
+	return render_template('register.html', title='Register', form = form)
 
-@app.route('/login')
+@app.route('/login', methods = ['GET','POST'])
 def login():
      form = LoginForm()
      return render_template('login.html', title='Login', form = form)

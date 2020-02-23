@@ -39,8 +39,7 @@ class Books(db.Model, UserMixin):
     title = db.Column(db.String(30), nullable=False)
     author = db.Column(db.String(30), nullable=False)
     genre = db.Column(db.String(150), nullable=False, unique=True)
-    posts = db.relationship('BlogPost', backref='author', lazy=True)
-    books= db.relationship('Books', backref='book_ref', lazy=True)
+    User_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     def __repr__(self):
         return ''.join([
             'User ID: ', str(self.id), '\r\n',
