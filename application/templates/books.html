@@ -2,9 +2,18 @@
 <h1>{{ title }}</h1>
 {% block body %}
 <br>
-<br>
 <h2>Please see our available books.</h2>
+<hr>
 <br>
 <br>
-<br>
+	{% for book in Books %}
+                Title: <input type='text' name='title' id='title' value="{{ book.title }}">
+                <br>
+                Author: <input type='text' name='author' id='author' value="{{ book.author}}">
+                <br>
+                Genre: <input type='text' name='genre' id='content' value="{{ book.genre }}"> 
+                <br>
+                ISBN: <input type='text' name='ISBN' id='content' value="{{ book.id }}">
+	{% endfor %}
+<hr>
 {% endblock %}

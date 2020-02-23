@@ -10,7 +10,7 @@ def home():
 
 @app.route('/books')
 def books():
-     return render_template('books.html', title='Books')
+	return render_template('books.html', title='Books')
 
 @app.route('/register', methods = ['GET','POST'])
 def register():
@@ -63,7 +63,7 @@ def delete(id):
 @app.route('/login/myaccount/posts/edit/<int:id>', methods=['GET','POST'])
 def edit(id):
     post = BlogPost.query.get_or_404(id)
-    if request.method == 'POST': 
+    if request.method == 'POST':
         post.title = request.form['title']
         post.author = request.form['author']
         post.content = request.form['content']
@@ -71,14 +71,3 @@ def edit(id):
         return redirect('/posts')
     else:
         return render_template('edit.html', post=BlogPost)
-
-@app.route('/login/myaccount/admin', methods=['GET','POST'])
-def bookentry(id):
-    form = BookEntryForm()
-    post = BlogPost.query.get_or_404(id)
-    if request.method == 'POST': 
-        post.title = request.form['title']
-        post.author = request.form['author']
-        post.content = request.form['content']
-        db.session.commit()
-        return redirect('/posts')
