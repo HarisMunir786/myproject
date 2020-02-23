@@ -9,7 +9,7 @@ class BlogPost(db.Model):
     title = db.Column(db.String(100), nullable=False, unique=True)
     content = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     def __repr__(self):
         return ''.join([
 			'User ID: ', str(self.id), '\r\n',
@@ -20,7 +20,7 @@ class BlogPost(db.Model):
 def load_user(id):
     return Users.query.get(int(id))
 
-class Users(db.Model, UserMixin):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
