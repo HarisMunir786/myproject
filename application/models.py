@@ -26,7 +26,8 @@ class User(db.Model, UserMixin):
 	email = db.Column(db.String(150), nullable=False, unique=True)
 	password = db.Column(db.String(500), nullable=False)
 	posts = db.relationship('BlogPost', backref='author', lazy=True)
-	books_id = db.relationship('Books', backref='book_ref', lazy=True)
+#	books_id = db.relationship('Books', backref='book_ref', lazy=True)
+	books_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
 	def __repr__(self):
 		return ''.join([
 			'User ID: ', str(self.id), '\r\n',
