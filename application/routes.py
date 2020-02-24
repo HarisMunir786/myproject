@@ -15,14 +15,16 @@ def books():
 
 @app.route('/register', methods = ['GET','POST'])
 def register():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		crypt_pw = bcrypt.generate_password_hash(form.password.data)
+		hash_pw = bcrypt.generate_password_hash(form.password.data('utf-8'))
 		user = User(
 			first_name = form.first_name.data,
 			last_name = form.last_name.data,
 			email = form.email.data,
-			password = cryp_pw
+			password = hash_pw
     		)
 		db.session.add(user)
 		db.session.commit()
@@ -31,6 +33,8 @@ def register():
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
 	form = LoginForm()
 	if form.validate_on_submit():
 		user=User.query.filter_by(email=form.email.data).first()
@@ -42,33 +46,49 @@ def login():
 			return redirect(url_for('home'))
 	return render_template('login.html', title='Login', form=form)
 
-@app.route('/login/myaccount')
+@app.route('/myaccount')
+@login_required
 def myaccount():
-	return render_template('myaccount.html', title='My Account')
+	form = UpdateAccountForm()
+	posts = Posts.query.filter_by(user_id=current_user.id).all()
+	if form.validate_on_submit():
+		current_user.first_name = form.first_name.data
+		current_user.last_name = form.last_name.data
+		current_user.email = form.email.data
+		db.session.commit()
+		return redirect(url_for('account'))
+	elif request.method == 'GET':
+		form.first_name.data = current_user.first_name
+		form.last_name.data = current_user.last_name
+		form.email.data = current_user.email
+	return render_template('myaccount.html', title='Account', form=form, posts=posts)
 
-@app.route('/login/myaccount/posts', methods=['GET', 'POST'])
+@app.route('/posts', methods=['GET', 'POST'])
+@login_required
 def posts():
 	form = PostForm()
-	if request.method == 'POST':
-		post_title = request.form['title']
-		post_content = request.form['content']
-		new_post = BlogPost(title=post_title, content=post_content)
-		db.session.add(new_post)
+	if form.validate_on_submit():
+		postData = Posts(
+			title = form.title.data,
+			content = form.content.data,
+			author = current_user
+		)
+		db.session.add(postData)
 		db.session.commit()
-		return redirect('/login/myaccount/posts')
+		return redirect(url_for('home'))
 	else:
-		all_posts = BlogPost.query.order_by(BlogPost.date_posted).all()
-	return render_template('/login/myaccount/posts', all_posts=BlogPost)
+		print(form.errors)
+	return render_template('posts.html', title = 'Post', form=form)
 
-@app.route('/login/myaccount/posts/delete/<int:id>')
+@app.route('/posts/delete/<int:id>')
 @login_required
 def delete(id):
 	post = BlogPost.query.get_or_404(id)
 	db.session.delete(post)
 	db.session.commit()
-	return redirect('/login/myaccount/posts')
+	return redirect('/posts')
 
-@app.route('/login/myaccount/posts/edit/<int:id>', methods=['GET','POST'])
+@app.route('/posts/edit/<int:id>', methods=['GET','POST'])
 def edit(id):
 	post = BlogPost.query.get_or_404(id)
 	if request.method == 'POST':

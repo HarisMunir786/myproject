@@ -11,8 +11,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = str(os.getenv('DB_URI'))
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = str(os.getenv('DATABASE_URI'))
+app.config['SECRET_KEY'] = str(os.getenv('SECRET_KEY'))
 
 db = SQLAlchemy(app)
 
