@@ -2,13 +2,13 @@ from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from application.models import BlogPost, User, Books
+from application.models import Comment, User, Book
 
 class LoginButton(FlaskForm):
 	submit = SubmitField('Login Page')
 
-class PostForm(FlaskForm):
-	title = StringField('Title',
+class CommentForm(FlaskForm):
+        title = StringField('Title',
 		validators = [
 			DataRequired(),
 			Length(min=2, max=100)

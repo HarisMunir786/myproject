@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 from application import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
-from application.models import BlogPost, User, Books
+from application.models import Comment, User, Book
 from application.forms import PostForm, LoginForm, RegistrationForm
 
 @app.route('/')
@@ -63,12 +63,12 @@ def myaccount():
 		form.email.data = current_user.email
 	return render_template('myaccount.html', title='Account', form=form, posts=posts)
 
-@app.route('/posts', methods=['GET', 'POST'])
+@app.route('/myaccount/comments', methods=['GET', 'POST'])
 @login_required
-def posts():
-	form = PostForm()
+def comments():
+	form = CommentsForm()
 	if form.validate_on_submit():
-		postData = Posts(
+		postData = Comment(
 			title = form.title.data,
 			content = form.content.data,
 			author = current_user
@@ -80,15 +80,15 @@ def posts():
 		print(form.errors)
 	return render_template('posts.html', title = 'Post', form=form)
 
-@app.route('/posts/delete/<int:id>')
+@app.route('/comment/delete/<int:id>')
 @login_required
 def delete(id):
-	post = BlogPost.query.get_or_404(id)
+	comment = Comment.query.get_or_404(id)
 	db.session.delete(post)
 	db.session.commit()
-	return redirect('/posts')
+	return redirect('/myaccount')
 
-@app.route('/posts/edit/<int:id>', methods=['GET','POST'])
+@app.route('comments/edit/<int:id>', methods=['GET','POST'])
 def edit(id):
 	post = BlogPost.query.get_or_404(id)
 	if request.method == 'POST':
@@ -96,11 +96,11 @@ def edit(id):
 		post.author = request.form['author']
 		post.content = request.form['content']
 		db.session.commit()
-		return redirect('/posts')
+		return redirect('/myaccount')
 	else:
 		return render_template('edit.html', post=post)
 
-@app.route('/logout')
+@app.route('/myaccount/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
